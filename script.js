@@ -1,32 +1,35 @@
 console.log('Add validation!');
 
 
-// if (no text)
-//     should say something about it being invalid
-//     and prevent the default response of it being valid
-
-// function markInvalid(field, error) {
-//     const formContainer = field.parentNode
-//     field.parentNode.classList.remove('input-valid')
-//     field.parentNode.classList.add('input-invalid')
+function markInvalid(field, error) {
+    // const formContainer = field.parentNode
+    field.classList.add('input-invalid')
+    field.classList.remove('input-valid')
 
 
-
-
-// field vs. nameTextField
-
-// if (error) {
-//     const errorMsg = document.createElement('p')
-//     errorMsg.classList.add('input-hint', 'text-danger', 'error message')
-
+    if (error) {
+        const errorMsg = document.createElement('p')
+        errorMsg.classList.add('input-hint', 'text-danger', 'error-message')
+        errorMsg.innerText = error
+        field.appendChild(errorMsg)
+    }
+}
 // line 21?
 
+function markValid(field) {
+    field.classList.remove('input-invalid')
+    field.classList.add('input-valid')
+}
 
+function removeErrorMsgs(field) {
+    for (let msg of document.querySelectorAll('.error-message'))
+        msg.remove()
+}
 
-// function markValid(field) {
-//     field.parentNode.classList.remove('input-invalid')
-//     field.parentNode.classList.add('input-valid')
-
+function isDateInFuture(date) {
+    let today = new Date()
+    now.setUTCHours(0, 0, 0)
+}
 
 
 
@@ -36,12 +39,8 @@ function main() {
     console.log({ parkingForm })
     parkingForm.addEventListener('submit', function(event) {
         event.preventDefault()
-            // let formFieldText = document.querySelector('#parking-form')
-            // let fieldText = nameTextField.value
 
-
-        // function name() {
-
+        removeErrorMsgs()
 
         let nameTextField = document.querySelector('#name-field')
         let nameInput = document.querySelector('#name')
@@ -51,16 +50,13 @@ function main() {
 
 
         if (!nameText) {
-            nameTextField.classList.remove('input-valid')
-            nameTextField.classList.add('input-invalid')
+            markInvalid(nameTextField, 'Name is required')
         } else {
-            nameTextField.classList.remove('input-invalid')
-            nameTextField.classList.add('input-valid')
-                // }
+            markValid(nameTextField)
         }
 
 
-        // function days() {
+
         let daysTextField = document.querySelector('#days-field')
         let daysInput = document.querySelector('#days')
 
@@ -70,15 +66,13 @@ function main() {
 
 
         if (!isNaN(daysText) && (daysText < 1 || daysText > 30) || isNaN(daysText)) {
-            daysTextField.classList.remove('input-valid')
-            daysTextField.classList.add('input-invalid')
+            markInvalid(daysTextField, 'Number of days is required, and must be between 1-30 days')
         } else {
-            daysTextField.classList.remove('input-invalid')
-            daysTextField.classList.add('input-valid')
+            markValid(daysTextField)
         }
-        // }
 
-        // function date() {
+
+
         let dateTextField = document.querySelector('#start-date-field')
         let dateInput = document.querySelector('#start-date')
 
@@ -87,13 +81,11 @@ function main() {
 
 
         if (!dateText) {
-            dateTextField.classList.remove('input-valid')
-            dateTextField.classList.add('input-invalid')
+            markInvalid(dateTextField, 'Date is required, and must be in the future')
         } else {
-            dateTextField.classList.remove('input-invalid')
-            dateTextField.classList.add('input-valid')
+            markValid(dateTextField)
         }
-        // }
+
 
         let cvvTextField = document.querySelector('#cvv-field')
         let cvvInput = document.querySelector('#cvv')
@@ -102,11 +94,9 @@ function main() {
         console.log({ cvvText })
 
         if (!cvvText) {
-            cvvTextField.classList.remove('input-valid')
-            cvvTextField.classList.add('input-invalid')
+            markInvalid(cvvTextField, 'CVV is required, and must be 3 numbers')
         } else {
-            cvvTextField.classList.remove('input-invalid')
-            cvvTextField.classList.add('input-valid')
+            markValid(cvvTextField)
         }
 
 
@@ -117,11 +107,9 @@ function main() {
         console.log({ ccText })
 
         if (!ccText) {
-            ccTextField.classList.remove('input-valid')
-            ccTextField.classList.add('input-invalid')
+            markInvalid(ccTextField, 'Credit Car is required')
         } else {
-            ccTextField.classList.remove('input-invalid')
-            ccTextField.classList.add('input-valid')
+            markValid(ccTextField)
         }
 
         let expTextField = document.querySelector('#expiration-field')
@@ -131,13 +119,27 @@ function main() {
         console.log({ expText })
 
         if (!expText) {
-            expTextField.classList.remove('input-valid')
-            expTextField.classList.add('input-invalid')
+            markInvalid(expTextField, 'Expiration date is required')
         } else {
-            expTextField.classList.remove('input-invalid')
-            expTextField.classList.add('input-valid')
+            markValid(expTextField)
         }
 
+
+        let carTextField = document.querySelector('#car-field')
+        let carYearInput = document.querySelector('#car-year')
+        let carMakeInput = document.querySelector('#car-make')
+        let carModelInput = document.querySelector('#car-model')
+
+        let carYearText = carYearInput.value
+        let carMakeText = carMakeInput.value
+        let carModelText = carModelInput.value
+        console.log({ expText })
+
+        if (!carYearText || !carMakeText || !carModelText) {
+            markInvalid(carTextField, 'Car year is required. Car make is required. Car model is required.')
+        } else {
+            markValid(carTextField)
+        }
 
     })
 }
