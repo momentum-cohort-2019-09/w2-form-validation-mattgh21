@@ -28,7 +28,8 @@ function removeErrorMsgs(field) {
 
 function isDateInFuture(date) {
     let today = new Date()
-    now.setUTCHours(0, 0, 0)
+    today.setUTCHours(0, 0, 0, 0)
+
 }
 
 
@@ -135,7 +136,7 @@ function main() {
         let carModelText = carModelInput.value
         console.log({ expText })
 
-        if (!carYearText || !carMakeText || !carModelText) {
+        if ((!isNaN(carYearText) && (carYearText < 1900 || carYearText > 2019) || isNaN(carYearText)) || !carMakeText || !carModelText) {
             markInvalid(carTextField, 'Car year is required. Car make is required. Car model is required.')
         } else {
             markValid(carTextField)
