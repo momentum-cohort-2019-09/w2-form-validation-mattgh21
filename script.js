@@ -27,9 +27,12 @@ function removeErrorMsgs(field) {
 }
 
 function isDateInFuture(date) {
-    let today = new Date()
-    today.setUTCHours(0, 0, 0, 0)
-
+    let today = Date.now()
+    if (date > today) {
+        return true
+    } else {
+        return false
+    }
 }
 
 
@@ -76,12 +79,15 @@ function main() {
 
         let dateTextField = document.querySelector('#start-date-field')
         let dateInput = document.querySelector('#start-date')
+        let date = new Date(dateInput.value)
+
+        console.log(date)
 
         let dateText = dateInput.value
         console.log({ dateText })
 
 
-        if (!dateText) {
+        if (!dateText || !isDateInFuture(date)) {
             markInvalid(dateTextField, 'Date is required, and must be in the future')
         } else {
             markValid(dateTextField)
@@ -94,7 +100,7 @@ function main() {
         let cvvText = cvvInput.value
         console.log({ cvvText })
 
-        if (!cvvText) {
+        if (isNaN(cvvText) || cvvText.length !== 3 || cvvText.includes(".")) {
             markInvalid(cvvTextField, 'CVV is required, and must be 3 numbers')
         } else {
             markValid(cvvTextField)
@@ -115,11 +121,12 @@ function main() {
 
         let expTextField = document.querySelector('#expiration-field')
         let expInput = document.querySelector('#expiration')
-
         let expText = expInput.value
         console.log({ expText })
 
-        if (!expText) {
+        let expDate = new Date(expInput.value)
+
+        if (!expText || !isDateInFuture(expDate)) {
             markInvalid(expTextField, 'Expiration date is required')
         } else {
             markValid(expTextField)
